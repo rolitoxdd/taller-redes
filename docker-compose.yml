@@ -1,0 +1,10 @@
+version: "3.8"
+
+services: 
+  client: 
+    image: rolitoxdd/weechat
+    depends_on: 
+      - server
+
+  server:
+    image: rolitoxdd/oragono
