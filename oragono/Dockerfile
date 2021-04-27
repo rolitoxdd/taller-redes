@@ -1,37 +1,28 @@
-FROM ubuntu:20.04
-
+FROM ubuntu:20.04 AS builder
 ENV DEBIAN_FRONTEND="noninteractive"
+RUN apt-get update && apt-get upgrade -y 
+RUN  apt-get install -y tar \
+    golang \
+    build-essential \
+    wget 
+RUN wget https://github.com/oragono/oragono/archive/v2.5.1.tar.gz 
+RUN tar -xzf v2.5.1.tar.gz 
+WORKDIR /oragono-2.5.1 
+RUN mv default.yaml ircd.yaml 
+RUN sed -i 's/^\(\s*\)\"127.0.0.1:6667\":.*$/\1":6667":/' ircd.yaml
+RUN sed -i 's/^\s*\"\[::1\]:6667\":.*$//' ircd.yaml
+RUN make build
+RUN mkdir -p /ircd-bin
+RUN cp oragono /ircd-bin
+RUN cp -rf languages/ /ircd-bin/languages
+RUN cp ircd.yaml /ircd-bin/ircd.yaml 
+RUN cp oragono.motd /ircd-bin 
 
-RUN apt-get update \
-&& apt-get upgrade -y \
-&& apt-get install -y tar \
-golang \
-build-essential \
-wget \
-&& wget https://github.com/oragono/oragono/archive/v2.5.1.tar.gz \
-&& tar -xzf v2.5.1.tar.gz \
-&& cd /oragono-2.5.1 \
-&& mv default.yaml ircd.yaml \ 
-&& sed -i 's/^\(\s*\)\"127.0.0.1:6667\":.*$/\1":6667":/' ircd.yaml\
-&& sed -i 's/^\s*\"\[::1\]:6667\":.*$//' ircd.yaml\
-&& make build\
-&& mkdir -p /ircd-bin\
-&& cp oragono /ircd-bin\
-&& cp -rf languages/ /ircd-bin/languages\
-&& cp ircd.yaml /ircd-bin/ircd.yaml \
-&& cp oragono.motd /ircd-bin \
-&& apt-get remove -y build-essential \
-golang \
-wget \
-&& apt-get autoremove -y \
-&& rm -rf /oragono-2.5.1 \
-&& rm /v2.5.1.tar.gz
-
+FROM ubuntu:20.04
+COPY --from=builder /ircd-bin/ /ircd-bin/
 WORKDIR /ircd-bin/
-
-RUN ./oragono mkcerts \
-&& ./oragono initdb
-
+RUN ./oragono mkcerts 
+RUN ./oragono initdb
 EXPOSE 6667
-
 ENTRYPOINT ["./oragono","run"]
+
