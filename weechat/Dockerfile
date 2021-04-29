@@ -37,7 +37,7 @@ RUN make install
 FROM ubuntu:20.04
 COPY --from=builder /usr/local/lib/weechat /usr/local/lib/weechat
 COPY --from=builder /usr/local/bin/weechat /usr/local/bin/weechat
-RUN apt update -y && apt upgrade -y
-RUN apt install -y libcurl4-gnutls-dev 
+RUN apt-get update -y && apt-get upgrade -y
+RUN apt-get install -y libcurl4-gnutls-dev 
 ENTRYPOINT ["weechat", "-r /set irc.look.temporary_servers on"]
 

@@ -1,10 +1,10 @@
 FROM ubuntu:20.04 AS builder
 ENV DEBIAN_FRONTEND="noninteractive"
 RUN apt-get update && apt-get upgrade -y 
-RUN  apt-get install -y tar \
-    golang \
-    build-essential \
-    wget 
+RUN apt-get install -y tar 
+RUN apt-get install -y golang 
+RUN apt-get install -y build-essential 
+RUN apt-get install -y wget 
 RUN wget https://github.com/oragono/oragono/archive/v2.5.1.tar.gz 
 RUN tar -xzf v2.5.1.tar.gz 
 WORKDIR /oragono-2.5.1 
