@@ -33,4 +33,5 @@ A partir de este punto podemos utilizar nuestro cliente de Weechat conectado al 
 
 
 Video de la captura de tráfico:
+
 [![Protocolo IRC](http://img.youtube.com/vi/8dNjg6tq-zI/0.jpg)](http://www.youtube.com/watch?v=8dNjg6tq-zI "Protocolo IRC")
