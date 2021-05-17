@@ -45,3 +45,36 @@ Video de la captura de tráfico:
 $ docker pull rolitoxdd/weechat
 $ docker pull rolitoxdd/oragono
 ```
+---------------------------------------------------------------------------------
+
+En esta nueva entrega se trabaja con el programa Polymorph, el cual se encarga de captar y modificar paquetes a tiempo real. Para su implementacion y uso se realizó una imagen de docker (Dockerfile contenido en los archivos).
+
+Pasos a seguir para inicializar Polymorph:
+
+1. Posterior a los pasos anteriormente descritos debera buildear o descargar la imagen de Polymorph creada:
+
+Buildear:
+```sh
+grupo_777/polymorph $ docker build -t rolitoxdd/polymorph .
+```
+Descargar:
+
+```sh
+$ docker pull rolitoxdd/polymorph
+```
+
+2. Para correr Polymorph se debe ejecutar el siguiente comando:
+
+```sh
+$ docker run -it --privileged --net grupo_777_default rolitoxdd/polymorph
+```
+
+Nota importante: Para poder elegir correctamente las IPs de target y gateway al momento de realizar el spoof dentro de polymorph es importante inspeccionar la red y de esta extraer las IPs con el comando:
+
+```sh
+$ docker network inspect grupo_777_default
+```
+
+Video demostración Polymorph:
+
+[![IRC - Intercepción y Modificación de paquetes /w Polymorph - 777](http://img.youtube.com/vi/5sbMDurwiEA/0.jpg)](http://www.youtube.com/watch?v=5sbMDurwiEA "IRC - Intercepción y Modificación de paquetes /w Polymorph - 777")
