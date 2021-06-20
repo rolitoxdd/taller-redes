@@ -6,6 +6,8 @@ services:
     build: ./weechat
     depends_on: 
       - server
+    cap_add:
+      - NET_ADMIN
 
   server:
     image: rolitoxdd/oragono
